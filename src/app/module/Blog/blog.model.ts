@@ -25,4 +25,4 @@ const blogSchema = new Schema<TBlog>(
         timestamps:true
     }
 );
-export const Model = model<TBlog>("Blog",blogSchema);
+export const Blog = model<TBlog>("Blog",blogSchema);
