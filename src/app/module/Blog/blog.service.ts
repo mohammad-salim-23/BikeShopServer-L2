@@ -25,3 +25,8 @@ const updateBlogIntoDB = async(id:string,
       );
       return result;
     }
+export const BlogServices={
+    createBlogIntoDB,
+    getSingleBlogFromDB,
+    updateBlogIntoDB
+}
