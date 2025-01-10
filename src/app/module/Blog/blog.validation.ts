@@ -1,14 +1,16 @@
 import { z } from "zod";
 
-export  const createBlogSchema = z.object(
+export  const createBlogValidationSchema = z.object(
     {
-        title:z.string().min(1,"Title is required"),
-        content:z.string().min(1,"content is required"),
-        author:z.string(),
-        isPublished:z.boolean().optional()
+    body:z.object({
+        title:z.string(),
+        content:z.string(),
+       
+
+    })
     }
 );
-export const updateBlogSchema = z.object(
+export const updateBlogValidationSchema = z.object(
     {
         title:z.string().min(1,"Title is required").optional(),
         content:z.string().min(1,"content is required").optional(),

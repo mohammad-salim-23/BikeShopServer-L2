@@ -13,7 +13,7 @@ const blogSchema = new Schema<TBlog>(
         },
         author:{
             type:Schema.Types.ObjectId,
-            required:[true,"Author is required"],
+           
             ref:"User"
         },
         isPublished:{
@@ -22,7 +22,13 @@ const blogSchema = new Schema<TBlog>(
         }
     },
     {
-        timestamps:true
+        timestamps:true,
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.isPublished; 
+                return ret;
+            },
+        },
     }
 );
 export const Blog = model<TBlog>("Blog",blogSchema);
