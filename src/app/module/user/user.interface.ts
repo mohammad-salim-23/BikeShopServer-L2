@@ -10,7 +10,7 @@ export interface TUser{
 }
 export interface UserModel extends Model<TUser>{
    //instance methods for checking if the user exists
-   isUserExistsByEmail(email:string):Promise<boolean>;
+   isUserExistsByEmail(email:string):Promise<TUser>;
    //instance methods for checking if passwords are matched
    isPasswordMatched(
     plainTextPassword:string,
