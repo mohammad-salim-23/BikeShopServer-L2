@@ -12,7 +12,7 @@ router.post('/',auth(USER_ROLE.user),
     validateRequest(createBlogValidationSchema),
     BlogControllers.createBlog
 );
-
+router.get('/',BlogControllers.getAllBlog);
 router.patch('/:id',auth(USER_ROLE.user),
     validateRequest(updateBlogValidationSchema),
     BlogControllers.updateBlog

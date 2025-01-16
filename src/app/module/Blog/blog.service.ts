@@ -1,3 +1,5 @@
+import QueryBuilder from "../../builder/QueryBuilder";
+import { BlogSearchableFields } from "./blog.constant";
 import { TBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 
@@ -6,6 +8,26 @@ const createBlogIntoDB = async(payload:TBlog)=>{
     console.log(result);
     return result;
 }
+const getAllBlogFromDB = async (query: Record<string, unknown>) => {
+  const blogQuery = new QueryBuilder(
+    Blog.find(),
+    query
+  )
+    .search(BlogSearchableFields)
+    .filter()
+    .sort();
+
+  const result = await blogQuery.modelQuery
+    .select('-createdAt -updatedAt -__v -isPublished') 
+    .populate({
+      path: 'author', 
+      select: 'authorId name email',
+    })
+    .lean(); 
+
+  return result;
+};
+
 const getSingleBlogFromDB = async(id:string)=>{
     const result = await Blog.findById(id);
     return result;
@@ -36,6 +58,7 @@ const updateBlogIntoDB = async(id:string,
   }
 export const BlogServices={
     createBlogIntoDB,
+    getAllBlogFromDB ,
     getSingleBlogFromDB,
     updateBlogIntoDB,
     deleteBlogIntoDB
