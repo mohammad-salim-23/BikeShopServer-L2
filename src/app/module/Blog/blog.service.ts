@@ -26,11 +26,13 @@ const updateBlogIntoDB = async(id:string,
       );
       return result;
     }
-  const deleteBlogIntoDB = async(id:string)=>{
-    const result = await Blog.findByIdAndDelete(
-      id, 
-    );
- return result;
+  const deleteBlogIntoDB = async(blogId:string, authorId:string)=>{
+    const blog = await Blog.findById(blogId);
+    if(!blog || blog.author.toString()!== authorId){
+      return null;
+    }
+    const result = await Blog.findByIdAndDelete(blogId);
+    return result;
   }
 export const BlogServices={
     createBlogIntoDB,

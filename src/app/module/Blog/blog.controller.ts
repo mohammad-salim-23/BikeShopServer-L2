@@ -100,6 +100,13 @@ const updateBlog = catchAsync(async (req, res) => {
   const {id:blogId} = req.params;
   const {id:authorId} = req.user;
   const result = await BlogServices.deleteBlogIntoDB(blogId, authorId);
+  if(!result){
+    return sendResponse(res , {
+      success:false,
+      message:"Failed to delete blog:Blog not found or unauthorized",
+      statusCode:404
+    })
+  }
   sendResponse(res, {
     success:true,
     message:"Blog deleted successfully",
