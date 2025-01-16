@@ -1,15 +1,24 @@
 import {Router} from 'express';
 import validateRequest from '../../middleware/validateRequest';
-import { createBlogValidationSchema } from './blog.validation';
+import { createBlogValidationSchema, updateBlogValidationSchema } from './blog.validation';
 import { BlogControllers } from './blog.controller';
+import auth from '../../middleware/auth';
+import { USER_ROLE } from '../user/user.constant';
 const router = Router();
 
-router.get('/', (req,res, next) => {
-    res.send('Blog Route');
-})
 
-router.post('/',
+
+router.post('/',auth(USER_ROLE.user),
     validateRequest(createBlogValidationSchema),
     BlogControllers.createBlog
 );
+
+router.patch('/:id',auth(USER_ROLE.user),
+    validateRequest(updateBlogValidationSchema),
+    BlogControllers.updateBlog
+)
+router.delete('/:id',
+    auth(USER_ROLE.user),
+    BlogControllers.deleteBlog
+)
 export const BlogRoutes = router;

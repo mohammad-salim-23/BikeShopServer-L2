@@ -16,8 +16,9 @@ const auth=(...requiredRoles:TUserRole[])=>{
         }
         //checking if the given token is valid
         const decoded = jwt.verify(token, config.jwt_access_secret as string) as JwtPayload;
-        const {role, email, iat} = decoded;
-        const user = await User.isUserExistsByEmail(email);
+        console.log("Decoded token:", decoded);
+        const {role, userId, iat} = decoded;
+        const user = await User.isUserExistsByEmail(userId);
         
         if(!user){
             throw new AppError(StatusCodes.NOT_FOUND,'This user is not found!');
@@ -32,7 +33,14 @@ const auth=(...requiredRoles:TUserRole[])=>{
                 'You are not authorized!'
             )
         }
-        req.user = decoded as JwtPayload;
+        req.user ={
+            id:user.id,
+            email:user.email,
+            name:user.name,
+            role:user.role
+            
+        }
         next();
     })
 }
+export default auth;
