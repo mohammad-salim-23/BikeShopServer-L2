@@ -1,4 +1,4 @@
-import { FilterQuery, Query } from "mongoose";
+import mongoose, { FilterQuery, Query } from "mongoose";
 
 class QueryBuilder<T>{
     public modelQuery:Query<T[],T>;
@@ -24,10 +24,13 @@ class QueryBuilder<T>{
         excludeFields.forEach((el)=> delete queryObj[el]);
         const filterField = queryObj.filter as string | undefined;
         if(filterField){
-            this.modelQuery = this.modelQuery.find({
-                author: filterField,
-
-            } as FilterQuery<T>);
+            if (mongoose.Types.ObjectId.isValid(filterField)) {
+                this.modelQuery = this.modelQuery.find({
+                    "author.authorId": filterField,  
+                } as FilterQuery<T>);
+            } else {
+                throw new Error("Invalid author ID format");
+            }
         }
          return this;
     }
