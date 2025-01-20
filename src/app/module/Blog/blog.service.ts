@@ -13,19 +13,20 @@ const getAllBlogFromDB = async (query: Record<string, unknown>) => {
     Blog.find(),
     query
   )
-    .search(BlogSearchableFields)
-    .filter()
-    .sort();
+    .search(BlogSearchableFields) 
+    .filter() 
+    .sort(); 
 
+  // Fetch results from the database
   const result = await blogQuery.modelQuery
-    .select('-createdAt -updatedAt -__v -isPublished') 
+    .select('-__v') 
     .populate({
       path: 'author', 
       select: 'authorId name email',
     })
-    .lean(); 
+    .lean();
 
-  return result;
+  return result; 
 };
 
 const getSingleBlogFromDB = async(id:string)=>{

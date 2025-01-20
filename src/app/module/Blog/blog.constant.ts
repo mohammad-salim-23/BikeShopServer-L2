@@ -1,2 +1,2 @@
 
-export const BlogSearchableFields = ["title","content","author"];
+export const BlogSearchableFields = ["title","content"];

@@ -31,16 +31,19 @@ const createBlog = catchAsync(async (req, res)=>{
      }
    })
 });
-
-const getAllBlog = catchAsync(async (req , res)=>{
+const getAllBlog = catchAsync(async (req, res) => {
   const result = await BlogServices.getAllBlogFromDB(req.query);
+
   sendResponse(res, {
-    success:true,
-    message:"Blogs fetched successfully",
-    statusCode:200,
-    data:result
-  })
-})
+    success: true,
+    message: result.length
+      ? "Blogs fetched successfully"
+      : "No blogs matched the query. Returning all data.",
+    statusCode: 200,
+    data: result,
+  });
+});
+
 const getSingleBlog = catchAsync(async (req , res)=>{
     const {blogId} = req.params;
     const result = await BlogServices.getSingleBlogFromDB(blogId);

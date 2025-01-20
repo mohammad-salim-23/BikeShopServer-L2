@@ -13,8 +13,8 @@ const blogSchema = new Schema<TBlog>(
         },
         author:{
             type:Schema.Types.ObjectId,
-           
-            ref:"User"
+            ref:"User",
+            required:true
         },
         isPublished:{
             type:Boolean,
