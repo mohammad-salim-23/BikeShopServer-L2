@@ -163,8 +163,7 @@ To ensure consistency, all errors follow this format:
    ```
 5. Create a pull request.
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+
 
 ## Contact
 For questions or suggestions, feel free to contact the project owner:

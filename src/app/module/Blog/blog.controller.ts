@@ -1,35 +1,32 @@
-import { StatusCodes } from "http-status-codes";
-import catchAsync from "../../utils/catchAsync";
-import sendResponse from "../../utils/sendResponse";
-import { BlogServices } from "./blog.service";
+import { StatusCodes } from 'http-status-codes';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { BlogServices } from './blog.service';
 
-const createBlog = catchAsync(async (req, res)=>{
-  
+const createBlog = catchAsync(async (req, res) => {
+  const { id: authorId, name, email } = req.user;
+  //Combine request body with the author ID
+  const blogPayload = {
+    ...req.body,
+    author: authorId,
+  };
+  const result = await BlogServices.createBlogIntoDB(blogPayload);
 
- const {id:authorId , name, email} = req.user;
- //Combine request body with the author ID
- const blogPayload={
-  ...req.body,
-  author:authorId
- }
-   const result = await BlogServices.createBlogIntoDB(blogPayload);
-  
-   sendResponse( res, {
-    success:true,
-     statusCode:StatusCodes.CREATED,
-     message:"Blog is created successfully",
-     data:{
-      _id:result._id,
-      title:result.title,
-      content:result.content,
-      author:{
-        authorId:authorId,
-        name:name,
-        email:email
-       
-      }
-     }
-   })
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.CREATED,
+    message: 'Blog is created successfully',
+    data: {
+      _id: result._id,
+      title: result.title,
+      content: result.content,
+      author: {
+        authorId: authorId,
+        name: name,
+        email: email,
+      },
+    },
+  });
 });
 const getAllBlog = catchAsync(async (req, res) => {
   const result = await BlogServices.getAllBlogFromDB(req.query);
@@ -37,27 +34,27 @@ const getAllBlog = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     message: result.length
-      ? "Blogs fetched successfully"
-      : "No blogs matched the query. Returning all data.",
+      ? 'Blogs fetched successfully'
+      : 'No blogs matched the query. Returning all data.',
     statusCode: 200,
     data: result,
   });
 });
 
-const getSingleBlog = catchAsync(async (req , res)=>{
-    const {blogId} = req.params;
-    const result = await BlogServices.getSingleBlogFromDB(blogId);
-    sendResponse(res,{
-        statusCode:StatusCodes.OK,
-        success:true,
-        message:"Blog is retrieved successfully",
-        data:result
-    })
+const getSingleBlog = catchAsync(async (req, res) => {
+  const { blogId } = req.params;
+  const result = await BlogServices.getSingleBlogFromDB(blogId);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Blog is retrieved successfully',
+    data: result,
+  });
 });
 
 const updateBlog = catchAsync(async (req, res) => {
-  const { id: blogId } = req.params; 
-  const { id: authorId } = req.user; 
+  const { id: blogId } = req.params;
+  const { id: authorId } = req.user;
   const blogPayload = {
     ...req.body,
     author: authorId,
@@ -67,7 +64,7 @@ const updateBlog = catchAsync(async (req, res) => {
   if (!existingBlog) {
     return sendResponse(res, {
       success: false,
-      message: "Failed to update blog: Blog not found.",
+      message: 'Failed to update blog: Blog not found.',
       statusCode: 404,
       data: null,
     });
@@ -76,7 +73,7 @@ const updateBlog = catchAsync(async (req, res) => {
   if (existingBlog.author.toString() !== authorId) {
     return sendResponse(res, {
       success: false,
-      message: "Unauthorized: You can only update your own blog.",
+      message: 'Unauthorized: You can only update your own blog.',
       statusCode: 403,
       data: null,
     });
@@ -88,7 +85,7 @@ const updateBlog = catchAsync(async (req, res) => {
   if (!result) {
     return sendResponse(res, {
       success: false,
-      message: "Failed to update blog: Blog not found.",
+      message: 'Failed to update blog: Blog not found.',
       statusCode: 404,
       data: null,
     });
@@ -96,7 +93,7 @@ const updateBlog = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     success: true,
-    message: "Blog updated successfully",
+    message: 'Blog updated successfully',
     statusCode: 200,
     data: {
       _id: result._id,
@@ -110,28 +107,27 @@ const updateBlog = catchAsync(async (req, res) => {
     },
   });
 });
- const deleteBlog = catchAsync(async(req , res)=>{
-  const {id:blogId} = req.params;
-  const {id:authorId} = req.user;
+const deleteBlog = catchAsync(async (req, res) => {
+  const { id: blogId } = req.params;
+  const { id: authorId } = req.user;
   const result = await BlogServices.deleteBlogIntoDB(blogId, authorId);
-  if(!result){
-    return sendResponse(res , {
-      success:false,
-      message:"Failed to delete blog:Blog not found or unauthorized",
-      statusCode:404
-    })
+  if (!result) {
+    return sendResponse(res, {
+      success: false,
+      message: 'Failed to delete blog:Blog not found or unauthorized',
+      statusCode: 404,
+    });
   }
   sendResponse(res, {
-    success:true,
-    message:"Blog deleted successfully",
-    statusCode:200,
-    
-  })
- })
+    success: true,
+    message: 'Blog deleted successfully',
+    statusCode: 200,
+  });
+});
 export const BlogControllers = {
   createBlog,
-  getAllBlog ,
+  getAllBlog,
   getSingleBlog,
   updateBlog,
-  deleteBlog
-}
+  deleteBlog,
+};

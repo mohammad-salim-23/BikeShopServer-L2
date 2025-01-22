@@ -1,68 +1,74 @@
-import { ErrorRequestHandler, NextFunction } from "express";
-import { TErrorSources } from "../interface/error";
-import { ZodError } from "zod";
-import { handleZodError } from "../errors/handleZodError";
-import handleValidationError from "../errors/handleValidationError";
-import config from "../config";
-import handleCastError from "../errors/handleCastError";
-import handleDuplicateError from "../errors/handleDuplicateError";
-import AppError from "../errors/AppError";
+import { ErrorRequestHandler, NextFunction } from 'express';
+import { TErrorSources } from '../interface/error';
+import { ZodError } from 'zod';
+import { handleZodError } from '../errors/handleZodError';
+import handleValidationError from '../errors/handleValidationError';
+import config from '../config';
+import handleCastError from '../errors/handleCastError';
+import handleDuplicateError from '../errors/handleDuplicateError';
+import AppError from '../errors/AppError';
 
-const globalErrorHandler :ErrorRequestHandler=(err, req, res, next:NextFunction)=>{
+const globalErrorHandler: ErrorRequestHandler = (
+  err,
+  req,
+  res,
+  next: NextFunction,
+) => {
   let statusCode = 500;
-  let message = "Something went wrong!";
+  let message = 'Something went wrong!';
 
-  let errorSources : TErrorSources=[{
-    path:'',
-    message:'something went wrong'
-  }];
-  if(err instanceof ZodError){
-    const simplifiedError = handleZodError(err)
+  let errorSources: TErrorSources = [
+    {
+      path: '',
+      message: 'something went wrong',
+    },
+  ];
+  if (err instanceof ZodError) {
+    const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-  }else if(err?.name === 'ValidationError'){
+  } else if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-  }else if(err?.name === 'CastError'){
+  } else if (err?.name === 'CastError') {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-   }else if(err?.code === 11000){
+  } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
-   }else if(err instanceof AppError){
+  } else if (err instanceof AppError) {
     statusCode = err?.statusCode;
     message = err.message;
-    errorSources=[
+    errorSources = [
       {
-        path:'',
-        message: err?.message
-      }
-    ]
-   }else if(err instanceof Error){
+        path: '',
+        message: err?.message,
+      },
+    ];
+  } else if (err instanceof Error) {
     message = err.message;
-    errorSources=[
+    errorSources = [
       {
-        path:'',
-        message: err?.message
-      }
-    ]
-   }
+        path: '',
+        message: err?.message,
+      },
+    ];
+  }
 
-  //ultimate return 
+  //ultimate return
   res.status(statusCode).json({
-    success:false,
+    success: false,
     message,
     statusCode,
     errorSources,
-    stack:config.NODE_ENV === 'development'?err?.stack:null
-  })
-  
-}
+    stack: config.NODE_ENV === 'development' ? err?.stack : null,
+  });
+};
 export default globalErrorHandler;
