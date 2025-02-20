@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import validateRequest from '../../middleware/validateRequest';
 import {
-  createBlogValidationSchema,
-  updateBlogValidationSchema,
+  createBikeValidationSchema,
+  updateBikeValidationSchema,
+  
 } from './bike.validation';
 import { BlogControllers } from './bike.controller';
 import auth from '../../middleware/auth';
@@ -11,17 +12,19 @@ const router = Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.user),
-  validateRequest(createBlogValidationSchema),
-  BlogControllers.createBlog,
+  // auth(USER_ROLE.admin),
+  validateRequest(createBikeValidationSchema),
+  BlogControllers.createBike,
 );
-router.get('/', BlogControllers.getAllBlog);
+router.get('/', BlogControllers.getAllBikes);
 router.patch(
   '/:id',
-  auth(USER_ROLE.user),
-  validateRequest(updateBlogValidationSchema),
-  BlogControllers.updateBlog,
+  // auth(USER_ROLE.admin),
+  validateRequest(updateBikeValidationSchema),
+  BlogControllers.updateBike,
 );
-router.delete('/:id', auth(USER_ROLE.user), BlogControllers.deleteBlog);
+router.delete('/:id', 
+  // auth(USER_ROLE.admin),
+ BlogControllers.deleteBike);
 
 export const BlogRoutes = router;
