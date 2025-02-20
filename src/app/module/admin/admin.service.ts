@@ -1,4 +1,4 @@
-import { Blog } from '../Blog/blog.model';
+import { Blog } from '../Blog/bike.model';
 import { TUser } from '../user/user.interface';
 import { User } from '../user/user.model';
 

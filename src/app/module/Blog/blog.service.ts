@@ -1,7 +1,7 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import { BlogSearchableFields } from './blog.constant';
-import { TBlog } from './blog.interface';
-import { Blog } from './blog.model';
+import { TBlog } from './bike.interface';
+import { Blog } from './bike.model';
 
 const createBlogIntoDB = async (payload: TBlog) => {
   const result = await Blog.create(payload);
