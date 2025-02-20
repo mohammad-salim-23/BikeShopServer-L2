@@ -52,5 +52,5 @@ const bikeSchema = new Schema<IBike> ({
 }
 );
 
-const Bike = model<IBike, BikeModel>('Bike', bikeSchema);
-module.exports = Bike;
+export const Bike = model<IBike, BikeModel>('Bike', bikeSchema);
+

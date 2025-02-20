@@ -3,8 +3,8 @@ import validateRequest from '../../middleware/validateRequest';
 import {
   createBlogValidationSchema,
   updateBlogValidationSchema,
-} from './blog.validation';
-import { BlogControllers } from './blog.controller';
+} from './bike.validation';
+import { BlogControllers } from './bike.controller';
 import auth from '../../middleware/auth';
 import { USER_ROLE } from '../user/user.constant';
 const router = Router();

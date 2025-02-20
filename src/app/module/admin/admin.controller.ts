@@ -1,6 +1,6 @@
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { BlogServices } from '../Blog/blog.service';
+import { BlogServices } from '../Blog/bike.service';
 import { AdminServices } from './admin.service';
 
 const blockUserController = catchAsync(async (req, res) => {
