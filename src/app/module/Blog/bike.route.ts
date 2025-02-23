@@ -5,26 +5,28 @@ import {
   updateBikeValidationSchema,
   
 } from './bike.validation';
-import { BlogControllers } from './bike.controller';
+
 import auth from '../../middleware/auth';
 import { USER_ROLE } from '../user/user.constant';
+import { BikeControllers } from './bike.controller';
 const router = Router();
 
 router.post(
   '/',
   // auth(USER_ROLE.admin),
   validateRequest(createBikeValidationSchema),
-  BlogControllers.createBike,
+  BikeControllers.createBike,
 );
-router.get('/', BlogControllers.getAllBikes);
+router.get('/', BikeControllers.getAllBikes);
+router.get('/:bikeId', BikeControllers.getSingleBike);
 router.patch(
-  '/:id',
+  '/:bikeId',
   // auth(USER_ROLE.admin),
   validateRequest(updateBikeValidationSchema),
-  BlogControllers.updateBike,
+  BikeControllers.updateBike,
 );
-router.delete('/:id', 
+router.delete('/:bikeId', 
   // auth(USER_ROLE.admin),
- BlogControllers.deleteBike);
+  BikeControllers.deleteBike);
 
-export const BlogRoutes = router;
+export const BikeRoutes = router;

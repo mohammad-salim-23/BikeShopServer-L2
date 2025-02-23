@@ -74,7 +74,7 @@ const updateBike = catchAsync(async ( req , res)=>{
     statusCode : StatusCodes.OK
   })
  })
-export const BlogControllers = {
+export const BikeControllers = {
   createBike,
   getAllBikes,
   getSingleBike,
