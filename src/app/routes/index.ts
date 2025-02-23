@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AdminRoutes } from '../module/admin/admin.route';
-import { BikeRoutes } from '../module/Blog/bike.route';
+import { BikeRoutes } from '../module/Bike/bike.route';
 import { authRoutes } from '../module/auth/auth.route';
 
 const router = Router();

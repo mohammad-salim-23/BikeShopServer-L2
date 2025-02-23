@@ -38,6 +38,9 @@ userSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
   hashedPassword,
 ) {
+  if(!hashedPassword){
+    throw new Error('Hashed password is missing or invald');
+  }
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 export const User = model<TUser, UserModel>('User', userSchema);

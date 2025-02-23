@@ -61,11 +61,12 @@ const changePassword = async (
   payload: { oldPassword: string; newPassword: string },
 ) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByEmail(userData.userId);
-
-  if (!user) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
-  }
+  const user = await User.isUserExistsByEmail(userData?.email);
+console.log("check...",user.password);
+console.log(payload.oldPassword);
+  // if (!user) {
+  //   throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
+  // }
 
   //checking if the password is correct
 
@@ -75,12 +76,12 @@ const changePassword = async (
   //hash new password
   const newHashedPassword = await bcrypt.hash(
     payload.newPassword,
-    Number(config.bcrypt_salt_round),
+   Number(config.bcrypt_salt_round) || 10,
   );
-
+ console.log("NEW>>>",newHashedPassword);
   await User.findOneAndUpdate(
     {
-      id: userData.userId,
+      id: userData.email,
       role: userData.role,
     },
     {
