@@ -20,6 +20,11 @@ const getSingleOrderFromDB = async(id : string)=>{
     const result = await Order.findById(id);
     return result;
 };
+//email er upor base kore data get
+const getOrderByUserEmail = async (userEmail : string)=>{
+    const result = await Order.find({userEmail}).lean();
+    return result;
+}
 const updateOrderIntoDB = async(id: string, payload: Partial<IOrder>)=>{
     const {...orderData} = payload;
     const modifiedUpdatedData : Record<string , unknown>={
@@ -43,6 +48,7 @@ export const OrderServices = {
     createOrderintoDB , 
     getAllOrdersFromDB,
     getSingleOrderFromDB,
+    getOrderByUserEmail ,
     updateOrderIntoDB,
     deleteOrderIntoDB
 }

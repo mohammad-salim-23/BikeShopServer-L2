@@ -15,7 +15,7 @@ const moduleRoutes = [
     route: authRoutes,
   },
   {
-    path : '/order',
+    path : '/orders',
     route : OrderRoutes
   }
  

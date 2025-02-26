@@ -40,6 +40,24 @@ const getSingleOrder = catchAsync ( async (req , res)=>{
         data : result
     })
 });
+const getOrderByUser = catchAsync(async(req , res)=>{
+    const {userEmail} = req.params;
+    const result = await OrderServices.getOrderByUserEmail(userEmail);
+    if (!result.length) {
+        return sendResponse(res, {
+            success: false,
+            message: 'No orders found for this user',
+            statusCode: StatusCodes.NOT_FOUND,
+            data: [],
+        });
+    }
+    sendResponse(res , {
+        success : true, 
+        message: 'User orders retrieved successfully',
+        statusCode: StatusCodes.OK,
+        data: result,
+    });
+});
 const updateOrder = catchAsync(async (req , res)=>{
     const {orderId} = req.params;
     const result = await OrderServices.updateOrderIntoDB(orderId , req.body);
@@ -72,5 +90,6 @@ export const OrderControllers = {
     getAllOrders,
     getSingleOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getOrderByUser
 }

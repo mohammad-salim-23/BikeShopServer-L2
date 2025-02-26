@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", validateRequest(orderValidationSchema), OrderControllers.createOrder);
 router.get("/", OrderControllers.getAllOrders);
 router.get("/:orderId", OrderControllers.getSingleOrder);
+router.get("/:userEmail", OrderControllers.getOrderByUser);
 router.patch("/:orderId", validateRequest(updateOrderValidationSchema), OrderControllers.updateOrder);
 router.delete("/:order",OrderControllers.deleteOrder);
 
