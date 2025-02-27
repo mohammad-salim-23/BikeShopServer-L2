@@ -42,6 +42,7 @@ const getSingleOrder = catchAsync ( async (req , res)=>{
 });
 const getOrderByUser = catchAsync(async(req , res)=>{
     const {userEmail} = req.params;
+    console.log("Salim ali");
     const result = await OrderServices.getOrderByUserEmail(userEmail);
     if (!result.length) {
         return sendResponse(res, {

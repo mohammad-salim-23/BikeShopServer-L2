@@ -13,7 +13,7 @@ const getAllOrdersFromDB = async(query: Record<string, unknown>)=>{
     .filter()
     .sort();
 
-    const result = await orderQuery.modelQuery.select('__v').lean();
+    const result = await orderQuery.modelQuery.lean();
     return result;
 };
 const getSingleOrderFromDB = async(id : string)=>{
@@ -22,6 +22,7 @@ const getSingleOrderFromDB = async(id : string)=>{
 };
 //email er upor base kore data get
 const getOrderByUserEmail = async (userEmail : string)=>{
+    console.log(userEmail);
     const result = await Order.find({userEmail}).lean();
     return result;
 }
