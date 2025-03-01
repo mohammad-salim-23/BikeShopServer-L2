@@ -79,7 +79,9 @@ const updateOrder = catchAsync(async (req , res)=>{
 });
 const deleteOrder = catchAsync(async (req , res)=>{
     const {orderId} = req.params;
+    
     const result = await OrderServices.deleteOrderIntoDB(orderId);
+    console.log(result);
    sendResponse (res , {
     success : true,
     message : 'order deleted successfully',

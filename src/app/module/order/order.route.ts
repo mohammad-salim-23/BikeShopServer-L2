@@ -13,6 +13,6 @@ router.get("/user/:userEmail", auth(USER_ROLE.user) || auth(USER_ROLE.admin),
 router.get("/:orderId", OrderControllers.getSingleOrder);
 
 router.patch("/:orderId", validateRequest(updateOrderValidationSchema), OrderControllers.updateOrder);
-router.delete("/:order",OrderControllers.deleteOrder);
+router.delete("/:orderId",OrderControllers.deleteOrder);
 
 export const OrderRoutes = router;

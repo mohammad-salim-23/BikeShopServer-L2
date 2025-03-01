@@ -39,9 +39,9 @@ const updateOrderIntoDB = async(id: string, payload: Partial<IOrder>)=>{
 };
 const deleteOrderIntoDB = async(orderId : string)=>{
     const order = await Order.findById(orderId);
-    if(!order){
-        return null;
-    }
+    // if(!order){
+    //     return null;
+    // }
     const result = await Order.findByIdAndDelete(orderId);
     return result;
 };
