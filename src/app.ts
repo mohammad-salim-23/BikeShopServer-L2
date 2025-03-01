@@ -6,7 +6,7 @@ import notFound from './app/middleware/notFound';
 const app: Application = express();
 const cors = require("cors");
 app.use(cors ({
-  origin : "http://localhost:5173",
+  origin : ["http://localhost:5173","https://bike-shop-client-six.vercel.app"],
    credentials : true
 }))
 app.use(express.json());
